@@ -64,32 +64,34 @@ def getUnit(name): # Создаю определенный синтаксис de
             print('\nПожалуйста,введите числовое значение!')
             neednewchoise = True
     return unit
-def graph(num, title, y, x): # Ввожу определённый синтаксис для постройки графиков
+def graph(num, title, y, x):
     pyplot.subplot(1,2, num)
     pyplot.grid(True)
-    if title == 'Перехаодная характеристика':
+    if title == 'Переходная характеристика':
         pyplot.plot(x, y, 'red')
+        pyplot.title(title)
+        pyplot.ylabel('Амплитуда')
+        pyplot.xlabel('Время (с)')
     elif title == 'Импульсная характеристика':
         pyplot.plot(x, y, 'blue')
-    pyplot.title(title)
-    pyplot.ylabel('Амплитуда')
-    pyplot.xlabel('Время (с)')
+        pyplot.title(title)
+        pyplot.xlabel('Время (с)')
+
 unitName = choise()
 unit = getUnit(unitName)
 
 timeLine = []
-for i in range(0, 10):
+for i in range(0, 100):
     timeLine.append(i)
 [y, x] = matlab.step(unit, timeLine)
 graph(1, 'Переходная характеристика', y, x)
-
 [y, x] = matlab.impulse(unit, timeLine)
 graph(2, 'Импульсная характеристика', y, x)
 pyplot.show()
 
 timeLine = []
-for i in range(0, 150):
-    timeLine.append(i)
+for i in range(0, 1000):
+    timeLine.append(i/100)
 pyplot.subplot()
 pyplot.grid(True)
 mag, phase, omega = matlab.freqresp(unit, timeLine)
