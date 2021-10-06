@@ -57,14 +57,13 @@ def getUnit(name): # Создаю определенный синтаксис de
             elif name == 'Интегрирующее звено':
                 unit = matlab.tf([1], [t, 0])
             elif name == 'Идиальное дифференцирующее звено':
-                unit = matlab.tf([t, 0], [1, 1])
+                unit = matlab.tf([t, 0], [0.000000000000001, 1])  # Чтобы получить нужную функцию нажно поделить на значение близкое к 0 но не ноль, чтобы затем прибавить 1
             elif name == 'Реальное дифференцирующее звено':
-                unit = matlab.tf([k, 0], [t, 1])
-        else:
+                unit = matlab.tf([k, 0], [t, 1])  # Для построения графика с k=1,5 домножу коэффициент k на 0,5 позднее т.е [k*0.5, 0]
             print('\nПожалуйста,введите числовое значение!')
             neednewchoise = True
     return unit
-def graph(num, title, y, x):
+def graph(num, title, y, x): # Построение графиков
     pyplot.subplot(1,2, num)
     pyplot.grid(True)
     if title == 'Переходная характеристика':
@@ -94,7 +93,7 @@ for i in range(0, 1000):
     timeLine.append(i/100)
 pyplot.subplot()
 pyplot.grid(True)
-mag, phase, omega = matlab.freqresp(unit, timeLine)
+mag, phase, omega = matlab.freqresp(unit, timeLine) # Построение графиков АЧХ и ФЧХ
 pyplot.plot (mag)
 pyplot.title('АЧХ')
 pyplot.ylabel('Амплитуда')
